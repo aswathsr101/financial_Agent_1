@@ -30,7 +30,6 @@ def initialize_llm(model_option):
         return ChatBedrock(model='meta.llama3-1-8b-instruct-v1:0', temperature=0.1)
     elif model_option == 'Llama 3.1 70B Instruct':
         return ChatBedrock(model='meta.llama3-1-70b-instruct-v1:0', temperature=0.1)
-        return client
     else:
         raise ValueError("Invalid model option selected")
 
