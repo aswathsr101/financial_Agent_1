@@ -5,11 +5,8 @@ from tools.sentiment_analysis_tool import reddit_sentiment_analysis
 from tools.yf_tech_analysis_tool import yf_tech_analysis
 from tools.yf_fundamental_analysis_tool import yf_fundamental_analysis
 from langchain_community.tools.yahoo_finance_news import YahooFinanceNewsTool
-from langchain_groq import ChatGroq
-from langchain_openai import ChatOpenAI
+from langchain_aws import ChatBedrock
 from dotenv import load_dotenv
-
-
 
 
 # Environment Variables
@@ -19,18 +16,21 @@ os.environ["REDDIT_CLIENT_ID"] = os.getenv("REDDIT_CLIENT_ID")
 os.environ["REDDIT_CLIENT_SECRET"] = os.getenv("REDDIT_CLIENT_SECRET")
 os.environ["REDDIT_USER_AGENT"] = os.getenv("REDDIT_USER_AGENT")
 
-# Model Selection
-def initialize_llm(model_option, openai_api_key, groq_api_key):
-    if model_option == 'OpenAI GPT-4o':
-        return ChatOpenAI(openai_api_key=openai_api_key, model='gpt-4o', temperature=0.1)
-    elif model_option == 'OpenAI GPT-4o Mini':
-        return ChatOpenAI(openai_api_key=openai_api_key, model='gpt-4o-mini', temperature=0.1)
-    elif model_option == 'Llama 3 8B':
-        return ChatGroq(groq_api_key=groq_api_key, model='llama3-8b-8192', temperature=0.1)
-    elif model_option == 'Llama 3.1 70B':
-        return ChatGroq(groq_api_key=groq_api_key, model='llama-3.1-70b-versatile', temperature=0.1)
-    elif model_option == 'Llama 3.1 8B':
-        return ChatGroq(groq_api_key=groq_api_key, model='llama-3.1-8b-instant', temperature=0.1)
+model_option = ['Claude Instant','Claude 3 Haiku', 'Claude 3.5 Sonnet', 'Llama 3 70B Instruct', 'Llama 3.1 8B Instruct', 'Llama 3.1 70B Instruct'] 
+def initialize_llm(model_option):
+    if model_option == 'Claude Instant':
+        return ChatBedrock(model='anthropic.claude-instant-v1', temperature=0.1)
+    elif model_option == 'Claude 3 Haiku':
+        return ChatBedrock(model='anthropic.claude-3-haiku-20240307-v1:0', temperature=0.1)
+    elif model_option == 'Claude 3.5 Sonnet':
+        return ChatBedrock(model='anthropic.claude-3-5-sonnet-20240620-v1:0', temperature=0.1)
+    elif model_option == 'Llama 3 70B Instruct':
+        return ChatBedrock(model='meta.llama3-70b-instruct-v1:0', temperature=0.1)
+    elif model_option == 'Llama 3.1 8B Instruct':
+        return ChatBedrock(model='meta.llama3-1-8b-instruct-v1:0', temperature=0.1)
+    elif model_option == 'Llama 3.1 70B Instruct':
+        return ChatBedrock(model='meta.llama3-1-70b-instruct-v1:0', temperature=0.1)
+        return client
     else:
         raise ValueError("Invalid model option selected")
 

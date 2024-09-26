@@ -48,23 +48,13 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Model selection
-model_option = st.sidebar.selectbox("Select LLM Model", ['OpenAI GPT-4o','OpenAI GPT-4o Mini', 'Llama 3 8B', 'Llama 3.1 70B', 'Llama 3.1 8B'])
-
-# User API key inputs based on model selection
-if model_option in ['OpenAI GPT-4o', 'OpenAI GPT-4o Mini']:
-    openai_api_key = st.sidebar.text_input("Enter OpenAI API Key", type="password")
-    groq_api_key = None
-else:
-    groq_api_key = st.sidebar.text_input("Enter Groq API Key", type="password")
-    openai_api_key = None
+model_option = st.sidebar.selectbox("Select LLM Model", ['Claude Instant','Claude 3 Haiku', 'Claude 3.5 Sonnet', 'Llama 3 70B Instruct', 'Llama 3.1 8B Instruct', 'Llama 3.1 70B Instruct'])
 
 stock_symbol = st.sidebar.text_input("Enter Stock Symbol", value="AAPL")
 time_period = st.sidebar.selectbox("Select Time Period", ['1mo', '3mo', '6mo', '1y', '2y', '5y', 'max'])
 indicators = st.sidebar.multiselect("Select Indicators", ['Moving Averages', 'Volume', 'RSI', 'MACD'])
 analyze_button = st.sidebar.button("📊 Analyze Stock", help="Click to start the stock analysis")
 
-# Initialize session state
 if 'analyzed' not in st.session_state:
     st.session_state.analyzed = False
     st.session_state.stock_info = None
